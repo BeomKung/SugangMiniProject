@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8" />
+    <title>학생 정보 수정</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">학생 정보 수정</h2>
+
+    <form method="post" action="/admin/student/edit/{{student.id}}">
+
+        <!-- 이름은 readonly로 출력 -->
+        <div class="mb-3">
+            <label class="form-label">이름</label>
+            <input type="text" class="form-control" value="{{student.name}}" readonly>
+        </div>
+
+        <!-- 이메일도 readonly -->
+        <div class="mb-3">
+            <label class="form-label">이메일</label>
+            <input type="email" class="form-control" value="{{student.email}}" readonly>
+        </div>
+
+        <!-- 학번은 수정 가능 -->
+        <div class="mb-3">
+            <label for="studentNumber" class="form-label">학번</label>
+            <input type="text" class="form-control" id="studentNumber" name="studentNumber" value="{{student.studentNumber}}">
+        </div>
+
+        <!-- 전공 선택 -->
+        <div class="mb-3">
+            <label for="major" class="form-label">전공</label>
+            <select class="form-select" id="major" name="major">
+                <option value="영문과">영문과</option>
+                <option value="컴퓨터공학과">컴퓨터공학과</option>
+                <option value="디자인학과">디자인학과</option>
+                <option value="교양학부">교양학부</option>
+            </select>
+        </div>
+
+        <!-- 학년 선택 -->
+        <div class="mb-3">
+            <label for="grade" class="form-label">학년</label>
+            <select class="form-select" id="grade" name="grade">
+                <option value="1">1학년</option>
+                <option value="2">2학년</option>
+                <option value="3">3학년</option>
+                <option value="4">4학년</option>
+                <option value="석사">석사</option>
+                <option value="박사">박사</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">수정 완료</button>
+        <a href="/admin/student_index" class="btn btn-secondary">취소</a>
+    </form>
+</div>
+
+<script>
+    // 기존 값 select 박스에 자동 선택
+    document.getElementById('major').value = "{{student.major}}";
+    document.getElementById('grade').value = "{{student.grade}}";
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

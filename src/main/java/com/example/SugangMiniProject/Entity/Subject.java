@@ -50,4 +50,6 @@ public class Subject {
 
     @Column
     private int capacity;
+
+
 }

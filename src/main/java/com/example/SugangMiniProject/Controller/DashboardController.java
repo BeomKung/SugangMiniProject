@@ -9,10 +9,8 @@ import com.example.SugangMiniProject.Service.StudentDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -91,6 +89,37 @@ public class DashboardController {
     public String showAddStudentForm(Model model) {
         // 나중에 Student 등록 폼용 model 속성 추가 가능
         return "admin/add_student";
+    }
+
+    // 학생 수정 화면
+    @GetMapping("/admin/student/edit/{id}")
+    public String showEditStudentForm(@PathVariable Long id, Model model) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다. id=" + id));
+        model.addAttribute("student", student);
+        return "admin/edit_student";
+    }
+
+    // 학생 수정 처리
+    @PostMapping("/admin/student/edit/{id}")
+    public String updateStudent(@PathVariable Long id, @ModelAttribute Student updatedStudent) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 학생이 없습니다. id=" + id));
+
+        // 관리자 수정 가능한 항목만 업데이트
+        student.setStudentNumber(updatedStudent.getStudentNumber());
+        student.setMajor(updatedStudent.getMajor());
+        student.setGrade(updatedStudent.getGrade());
+
+        studentRepository.save(student);
+
+        return "redirect:/admin/student_index";
+    }
+
+    @PostMapping("/admin/student/delete/{id}")
+    public String deleteStudent(@PathVariable Long id) {
+        studentRepository.deleteById(id);
+        return "redirect:/admin/student_index";
     }
 
 }
