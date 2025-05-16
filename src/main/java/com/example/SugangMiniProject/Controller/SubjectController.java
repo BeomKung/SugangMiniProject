@@ -34,6 +34,7 @@ public class SubjectController {
     //강의 등록
     @PostMapping("/admin/add_lecture")
     public String addLecture(@ModelAttribute Subject subject) {
+        System.out.println("받은 subject: " + subject);
         subjectRepository.save(subject);
         return "redirect:/admin/lecture_index";
     }
@@ -52,7 +53,7 @@ public class SubjectController {
         System.out.println("넘어온 id = " + id);
         Subject subject = subjectRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 강의 없음: " + id));
-        model.addAttribute("subject", subject);
+        model.addAttribute("subjects", subject);
         return "admin/edit_lecture";
     }
 
@@ -65,12 +66,14 @@ public class SubjectController {
         subject.setCourseType(updated.getCourseType());
         subject.setDepartment(updated.getDepartment());
         subject.setGrade(updated.getGrade());
-        subject.setLectureCode(updated.getLectureCode());
         subject.setSubjectCode(updated.getSubjectCode());
         subject.setSubjectName(updated.getSubjectName());
         subject.setProfessor(updated.getProfessor());
-        subject.setSchedule(updated.getSchedule());
+        subject.setWeekday(updated.getWeekday());
+        subject.setStartTime(updated.getStartTime());
+        subject.setEndTime(updated.getEndTime());
         subject.setCredit(updated.getCredit());
+        subject.setCapacity(updated.getCapacity());
 
         subjectRepository.save(subject);
         return "redirect:/admin/lecture_index";

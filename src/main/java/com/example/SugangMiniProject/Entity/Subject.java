@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalTime;
+
 @Entity
 @Getter
 @Setter
@@ -14,23 +16,38 @@ import lombok.Setter;
 public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // 과목 고유 ID
+    private Long id;
+
     @Column
-    private String courseType;     // 이수구분 (전공, 교양 등)
+    private String courseType;
+
     @Column
-    private String department;     // 개설학과
+    private String department;
+
     @Column
-    private String grade;          // 학년 (1~4, 석사 등)
+    private String grade;
+
     @Column
-    private String lectureCode;    // 강좌번호
+    private String subjectCode;
+
     @Column
-    private String subjectCode;    // 과목코드
+    private String subjectName;
+
     @Column
-    private String subjectName;    // 과목명
+    private String professor;
+
     @Column
-    private String professor;      // 교수명
+    private String weekday;
+
+    @Column(columnDefinition = "TIME")
+    private String startTime;
+
+    @Column(columnDefinition = "TIME")
+    private String endTime;
+
     @Column
-    private String schedule;       // 스케줄 (예: "월 1-2교시")
+    private int credit;
+
     @Column
-    private int credit;            // 학점
+    private int capacity;
 }

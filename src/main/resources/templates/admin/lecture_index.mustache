@@ -16,9 +16,9 @@
 
 <div class="container mt-5">
     <h1>강의 목록</h1>
-
-    <div class="d-flex justify-content-end mb-3">
-        <a href="/admin/dashboard" class="btn btn-danger">관리자 페이지 돌아가기</a>
+    <div class="d-flex justify-content-end gap-2 mb-3">
+        <a href="/admin/add_lecture" class="btn btn-outline-success">강의 등록</a>
+        <a href="/admin/dashboard" class="btn btn-outline-danger">관리자 페이지 돌아가기</a>
     </div>
 
     <table class="table table-bordered">
@@ -27,13 +27,15 @@
             <th scope="col">이수구분</th>
             <th scope="col">개설학과</th>
             <th scope="col">학년</th>
-            <th scope="col">강좌번호</th>
             <th scope="col">과목코드</th>
             <th scope="col">과목명</th>
             <th scope="col">교수명</th>
+            <th scope="col">요일</th>
+            <th scope="col">시작시간</th>
+            <th scope="col">종료시간</th>
             <th scope="col">학점</th>
-            <th scope="col">스케줄</th>
-            <th scope="col">관리</th>
+            <th scope="col">정원</th>
+            <th scope="col">신청</th>
         </tr>
         </thead>
         <tbody>
@@ -42,12 +44,14 @@
                 <td>{{courseType}}</td>
                 <td>{{department}}</td>
                 <td>{{grade}}</td>
-                <td>{{lectureCode}}</td>
                 <td>{{subjectCode}}</td>
                 <td>{{subjectName}}</td>
                 <td>{{professor}}</td>
-                <td>{{schedule}}</td>
+                <td>{{weekday}}</td>
+                <td>{{startTime}}</td>
+                <td>{{endTime}}</td>
                 <td>{{credit}}</td>
+                <td>{{capacity}}</td>
                 <td>
                     <a href="/admin/lecture/edit/{{id}}" class="btn btn-sm btn-warning">수정</a>
                     <form method="post" action="/admin/lecture/delete/{{id}}" style="display:inline;">
