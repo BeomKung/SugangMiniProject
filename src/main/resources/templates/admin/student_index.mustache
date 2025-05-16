@@ -30,27 +30,33 @@
     <a href="/admin" class="btn btn-danger">관리자 페이지 돌아가기</a>
 </div>
 
-<table class="table">
+<table class="table table-bordered">
     <thead>
     <tr>
-        <th scope="col">학번</th>
-        <th scope="col">비밀번호</th>
-        <th scope="col">전공</th>
-        <th scope="col">학년</th>
-        <th scope="col">관리</th>
+        <th>학번</th>
+        <th>이름</th>
+        <th>이메일</th>
+        <th>전공</th>
+        <th>학년</th>
+        <th>관리</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>17-502796</td>
-        <td>kws430</td>
-        <td>컴퓨터공학과</td>
-        <td>3</td>
-        <td>
-            <a href="#" class="btn btn-sm btn-warning">수정</a>
-            <a href="#" class="btn btn-sm btn-danger">삭제</a>
-        </td>
-    </tr>
+    {{#students}}
+        <tr>
+            <td>{{studentNumber}}</td>
+            <td>{{name}}</td>
+            <td>{{email}}</td>
+            <td>{{major}}</td>
+            <td>{{grade}}</td>
+            <td>
+                <a href="/admin/student/edit/{{id}}" class="btn btn-sm btn-warning">수정</a>
+                <form method="post" action="/admin/student/delete/{{id}}" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-danger">삭제</button>
+                </form>
+            </td>
+        </tr>
+    {{/students}}
     </tbody>
 </table>
 

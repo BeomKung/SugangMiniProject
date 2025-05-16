@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>강의 수정</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">강의 정보 수정</h2>
+{{#subject}}
+    <form method="post" action="/admin/lecture/edit/{{id}}">
+        <input type="hidden" name="id" value="{{id}}">
+        <div class="mb-3">
+            <label class="form-label">이수구분</label>
+            <input type="text" class="form-control" name="courseType" value="{{courseType}}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">개설학과</label>
+            <input type="text" class="form-control" name="department" value="{{department}}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">학년</label>
+            <input type="text" class="form-control" name="grade" value="{{grade}}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">강좌번호</label>
+            <input type="text" class="form-control" name="lectureCode" value="{{lectureCode}}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">과목코드</label>
+            <input type="text" class="form-control" name="subjectCode" value="{{subjectCode}}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">과목명</label>
+            <input type="text" class="form-control" name="subjectName" value="{{subjectName}}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">교수명</label>
+            <input type="text" class="form-control" name="professor" value="{{professor}}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">스케줄</label>
+            <input type="text" class="form-control" name="schedule" value="{{schedule}}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">학점</label>
+            <input type="number" class="form-control" name="credit" value="{{credit}}">
+        </div>
+{{/subject}}
+        <button type="submit" class="btn btn-primary">수정 완료</button>
+        <a href="/admin/lecture_index" class="btn btn-secondary">취소</a>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

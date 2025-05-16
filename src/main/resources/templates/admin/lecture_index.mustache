@@ -50,7 +50,9 @@
                 <td>{{credit}}</td>
                 <td>
                     <a href="/admin/lecture/edit/{{id}}" class="btn btn-sm btn-warning">수정</a>
-                    <a href="/admin/lecture/delete/{{id}}" class="btn btn-sm btn-danger">삭제</a>
+                    <form method="post" action="/admin/lecture/delete/{{id}}" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger">삭제</button>
+                    </form>
                 </td>
             </tr>
         {{/subjects}}

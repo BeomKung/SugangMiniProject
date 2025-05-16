@@ -76,32 +76,21 @@ public class DashboardController {
         return "redirect:/student/profile";
     }
 
-//    // 강의 목록 조회 / 수정
-//    @GetMapping("/admin/lecture_index")
-//    public String showLectureIndex(Model model) {
-//        // 나중에 lecture 목록을 model에 담을 수 있음
-//        return "admin/lecture_index";  // templates/admin/lecture_index.mustache
-//    }
 
-    // 학생 목록 조회 / 수정
+
     @GetMapping("/admin/student_index")
     public String showStudentIndex(Model model) {
-        // 나중에 student 목록을 model에 담을 수 있음
-        return "admin/student_index";  // templates/admin/student_index.mustache
+        List<Student> students = studentRepository.findAll();  // 전체 학생 목록 가져오기
+        model.addAttribute("students", students);
+        return "admin/student_index";
     }
 
-    // 강의 등록
-    @GetMapping("/admin/add_lecture")
-    public String showAddLectureForm(Model model) {
-        // 나중에 Subject 등록 폼용 model 속성 추가 가능
-        return "admin/add_lecture";  // templates/admin/add_lecture.mustache
-    }
 
     // 학생 등록
     @GetMapping("/admin/add_student")
     public String showAddStudentForm(Model model) {
         // 나중에 Student 등록 폼용 model 속성 추가 가능
-        return "admin/add_student";  // templates/admin/add_student.mustache
+        return "admin/add_student";
     }
 
 }
