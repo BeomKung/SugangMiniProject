@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <title>강의 목록</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/admin/dashboard">관리자 페이지</a>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <h1>강의 목록</h1>
+
+    <div class="d-flex justify-content-end mb-3">
+        <a href="/admin/dashboard" class="btn btn-danger">관리자 페이지 돌아가기</a>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th scope="col">이수구분</th>
+            <th scope="col">개설학과</th>
+            <th scope="col">학년</th>
+            <th scope="col">강좌번호</th>
+            <th scope="col">과목코드</th>
+            <th scope="col">과목명</th>
+            <th scope="col">교수명</th>
+            <th scope="col">학점</th>
+            <th scope="col">스케줄</th>
+            <th scope="col">관리</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#subjects}}
+            <tr>
+                <td>{{courseType}}</td>
+                <td>{{department}}</td>
+                <td>{{grade}}</td>
+                <td>{{lectureCode}}</td>
+                <td>{{subjectCode}}</td>
+                <td>{{subjectName}}</td>
+                <td>{{professor}}</td>
+                <td>{{schedule}}</td>
+                <td>{{credit}}</td>
+                <td>
+                    <a href="/admin/lecture/edit/{{id}}" class="btn btn-sm btn-warning">수정</a>
+                    <a href="/admin/lecture/delete/{{id}}" class="btn btn-sm btn-danger">삭제</a>
+                </td>
+            </tr>
+        {{/subjects}}
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+{{> layouts/footer}}

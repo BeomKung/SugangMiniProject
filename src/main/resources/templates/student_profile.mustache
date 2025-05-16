@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>학생 정보</title>
+</head>
+<body>
+<h2>{{student.name}} 학생의 정보</h2>
+
+<p>  이름 : {{student.name}} </p>
+<p>  학번 : {{student.studentNumber}} </p>
+<p>  이메일 : {{student.email}} </p>
+<p>  전공 : {{student.major}}</p>
+<p id="grade"></p>
+
+<a href="/student/profile/edit">[정보 수정]</a> |
+<a href="/student/dashboard">[대시보드로]</a>
+</body>
+</html>
+
+<script>
+
+    const grade = "{{student.grade}}";
+
+  const gradeText = /^[1-4]$/.test(grade) ? grade + "학년" : grade;
+  document.getElementById("grade").innerText = "학년 : " + gradeText;
+
+</script>

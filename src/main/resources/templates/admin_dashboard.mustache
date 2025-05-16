@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <title>mini_project</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="http://localhost:8080/admin">관리자 페이지</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        </div>
+    </div>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+<div class="d-flex justify-content-end mb-5">
+    <a href="/login" class="btn btn-danger">관리자 페이지 나가기</a>
+</div>
+
+<div class="text-center mb-5">
+    <a href="/admin/lecture_index" class="btn btn-info">강의 목록 조회 / 수정</a>
+</div>
+
+<div class="text-center mb-5">
+    <a href="/admin/student_index" class="btn btn-info">학생 목록 조회 / 수정</a>
+</div>
+
+<div class="text-center mb-5">
+    <a href="/admin/add_lecture" class="btn btn-info">강의 등록</a>
+</div>
+
+<div class="text-center mb-5">
+    <a href="/admin/add_student" class="btn btn-info">학생 등록</a>
+</div>
+
+{{> layouts/footer}}

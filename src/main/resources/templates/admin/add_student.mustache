@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <title>mini_project</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="http://localhost:8080/admin">관리자 페이지</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        </div>
+    </div>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+<h1>학생 등록</h1>
+
+<div class="d-flex justify-content-end mb-3">
+    <a href="/admin" class="btn btn-danger">관리자 페이지 돌아가기</a>
+</div>
+
+<div class="form-group">
+    <label for="title">학번</label>
+    <input type="text" class="form-control" id="student_id">
+</div>
+
+<div class="form-group">
+    <label for="title">계정</label>
+    <input type="text" class="form-control" id="account">
+</div>
+
+<div class="form-group">
+    <label for="title">비밀번호</label>
+    <input type="text" class="form-control" id="password">
+</div>
+
+<div class="form-group">
+    <label for="title">전공</label>
+    <input type="text" class="form-control" id="major">
+</div>
+
+<div class="form-group">
+    <label for="title">학년</label>
+    <input type="text" class="form-control" id="grade">
+</div>
+
+<a href="#" class="btn btn-primary mt-4" onclick="registerStudent()">등록하기</a>
+
+<script>
+    async function registerStudent() {
+      const student_id = document.getElementById('student_id').value;
+      const account = document.getElementById('account').value;
+      const password = document.getElementById('password').value;
+      const major = document.getElementById('major').value;
+      const grade = document.getElementById('grade').value;
+
+      // 간단 유효성 검사
+      if (!student_id || !password) {
+        alert('학번과 비밀번호는 필수입니다.');
+        return;
+      }
+
+      try {
+        const response = await fetch('/student/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            studentId: student_id,
+            password: password,
+            major: major,
+            grade: grade
+          })
+        });
+
+        if (response.ok) {
+          alert('학생이 등록되었습니다.');
+          location.reload();
+        } else {
+          alert('학생 등록 실패');
+        }
+      } catch (e) {
+        alert('서버와 통신 중 오류가 발생했습니다.');
+      }
+    }
+</script>
+
+{{> layouts/footer}}

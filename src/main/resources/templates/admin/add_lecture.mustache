@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <title>강의 등록</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/admin/dashboard">관리자 페이지</a>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <h1>강의 등록</h1>
+
+    <div class="d-flex justify-content-end mb-3">
+        <a href="/admin/dashboard" class="btn btn-danger">관리자 페이지 돌아가기</a>
+    </div>
+
+    <form method="post" action="/admin/add_lecture">
+        <div class="form-group mb-3">
+            <label>이수구분</label>
+            <input type="text" class="form-control" name="courseType" placeholder="예: 전공필수" onblur="this.value=this.value.trim()">
+        </div>
+
+        <div class="form-group mb-3">
+            <label>개설학과</label>
+            <input type="text" class="form-control" name="department" onblur="this.value=this.value.trim()">
+        </div>
+
+        <div class="form-group mb-3">
+            <label>학년</label>
+            <input type="text" class="form-control" name="grade" onblur="this.value=this.value.trim()">
+        </div>
+
+        <div class="form-group mb-3">
+            <label>강좌번호</label>
+            <input type="text" class="form-control" name="lectureCode" onblur="this.value=this.value.trim()">
+        </div>
+
+        <div class="form-group mb-3">
+            <label>과목코드</label>
+            <input type="text" class="form-control" name="subjectCode" onblur="this.value=this.value.trim()">
+        </div>
+
+        <div class="form-group mb-3">
+            <label>과목명</label>
+            <input type="text" class="form-control" name="subjectName" onblur="this.value=this.value.trim()">
+        </div>
+
+        <div class="form-group mb-3">
+            <label>교수명</label>
+            <input type="text" class="form-control" name="professor" onblur="this.value=this.value.trim()">
+        </div>
+
+        <div class="form-group mb-3">
+            <label>스케쥴</label>
+            <input type="text" class="form-control" name="schedule" placeholder="예: 월 1-2교시" onblur="this.value=this.value.trim()">
+        </div>
+
+        <div class="form-group mb-3">
+            <label>학점</label>
+            <input type="number" class="form-control" name="credit" onblur="this.value=this.value.trim()">
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">등록하기</button>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+{{> layouts/footer}}

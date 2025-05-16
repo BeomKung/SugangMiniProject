@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <title>mini_project</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="http://localhost:8080/admin">관리자 페이지</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        </div>
+    </div>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+<h1>학생 목록</h1>
+
+<div class="d-flex justify-content-end mb-3">
+    <a href="/admin" class="btn btn-danger">관리자 페이지 돌아가기</a>
+</div>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">학번</th>
+        <th scope="col">비밀번호</th>
+        <th scope="col">전공</th>
+        <th scope="col">학년</th>
+        <th scope="col">관리</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>17-502796</td>
+        <td>kws430</td>
+        <td>컴퓨터공학과</td>
+        <td>3</td>
+        <td>
+            <a href="#" class="btn btn-sm btn-warning">수정</a>
+            <a href="#" class="btn btn-sm btn-danger">삭제</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+{{> layouts/footer}}

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>정보 수정</title>
+</head>
+<body>
+<h2>{{student.name}} 정보 수정</h2>
+
+<form action="/student/profile/edit" method="post">
+    <p>이메일: <input type="email" name="email" value="{{student.email}}" required></p>
+    <p>비밀번호: <input type="password" name="password" required></p>
+    <button type="submit">저장</button>
+</form>
+
+<a href="/student/profile">← 프로필로 돌아가기</a>
+</body>
+</html>
