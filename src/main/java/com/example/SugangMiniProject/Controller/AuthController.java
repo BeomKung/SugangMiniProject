@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 @Controller
 @RequiredArgsConstructor
 public class AuthController {
+    //기본 컨트롤러
     private final StudentRepository studentRepository;
     private final PasswordEncoder passwordEncoder;
 
