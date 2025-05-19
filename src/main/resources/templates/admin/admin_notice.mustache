@@ -10,64 +10,49 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="http://localhost:8080/main">공지사항</a>
-
+        <a class="navbar-brand" href="http://localhost:8080/admin">관리자 페이지</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <div class="ms-auto d-flex">
-                <a href="/main" class="btn btn-success me-2">메인</a>
-                <a href="/login" class="btn btn-danger">로그아웃</a>
+            <div class="ms-auto">
+                <a href="/admin" class="btn btn-danger">관리자 페이지 돌아가기</a>
             </div>
         </div>
     </div>
 </nav>
 
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 
-<div class="container mt-3">
-    <h2 class="text-center mb-4" style="color: #4a90e2; font-weight: bold;">공지사항</h2>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">공지사항 관리</h2>
 
-    <style>
-        table {
-          width: 100%;
-          border-collapse: collapse;
-          font-family: Arial, sans-serif;
-        }
-        thead {
-          background: #007BFF;
-          color: white;
-        }
-        th, td {
-          padding: 10px;
-          border: 1px solid #ddd;
-        }
-        tbody tr:hover {
-          background: #cce5ff;
-        }
-    </style>
-
-    <table>
+    <table class="table">
         <thead>
-        <tr><th>제목</th><th>내용</th></tr>
+        <tr>
+            <th scope="col">제목</th>
+            <th scope="col">내용</th>
+            <th scope="col">관리</th>
+        </tr>
         </thead>
         <tbody>
-        {{#data}}
-            <tr>
-                <td>{{title}}</td>
-                <td>{{content}}</td>
-            </tr>
-        {{/data}}
+        <tr>
+            <td>{{notice.title}}</td>
+            <td>{{notice.content}}</td>
+            <td>
+                <a href="#" class="btn btn-sm btn-warning">수정</a>
+                <a href="#" class="btn btn-sm btn-danger">삭제</a>
+            </td>
+        </tr>
         </tbody>
-
     </table>
 
+    <div class="text-end mb-3">
+        <a href="/admin/add_notice" class="btn btn-primary">새 공지사항 작성</a>
+    </div>
 
 
 {{> layouts/footer}}

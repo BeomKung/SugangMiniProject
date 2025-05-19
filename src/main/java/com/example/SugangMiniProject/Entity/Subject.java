@@ -52,5 +52,4 @@ public class Subject {
     private int capacity;
 
 
-
 }
