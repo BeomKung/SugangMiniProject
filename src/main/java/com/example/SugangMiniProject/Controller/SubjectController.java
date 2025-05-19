@@ -3,6 +3,7 @@ package com.example.SugangMiniProject.Controller;
 import com.example.SugangMiniProject.Entity.Subject;
 import com.example.SugangMiniProject.Repository.AdminRepository;
 import com.example.SugangMiniProject.Repository.SubjectRepository;
+import com.example.SugangMiniProject.Service.SubjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -23,6 +25,8 @@ public class SubjectController {
     @Autowired
     private SubjectRepository subjectRepository;
 
+    @Autowired
+    private SubjectService subjectService;
 
     // 강의 등록
     @GetMapping("/admin/add_lecture")
@@ -33,9 +37,14 @@ public class SubjectController {
 
     //강의 등록
     @PostMapping("/admin/add_lecture")
-    public String addLecture(@ModelAttribute Subject subject) {
-        System.out.println("받은 subject: " + subject);
-        subjectRepository.save(subject);
+    public String addLecture(@ModelAttribute Subject subject, RedirectAttributes redirectAttributes) {
+        if (subjectService.isDuplicateLecture(subject)) {
+            redirectAttributes.addFlashAttribute("error", "⚠ 동일한 과목코드/교수/시간 조합이 이미 존재합니다.");
+            return "redirect:/admin/lecture_index";
+        }
+
+        subjectService.save(subject);
+        redirectAttributes.addFlashAttribute("msg", "과목이 성공적으로 등록되었습니다.");
         return "redirect:/admin/lecture_index";
     }
 
