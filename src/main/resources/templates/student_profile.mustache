@@ -1,22 +1,33 @@
 <!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>학생 정보</title>
+    <title>Student Info</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<h2>{{student.name}} 학생의 정보</h2>
+<body class="bg-light">
 
-<p>  이름 : {{student.name}} </p>
-<p>  학번 : {{student.studentNumber}} </p>
-<p>  이메일 : {{student.email}} </p>
-<p>  전공 : {{student.major}}</p>
-<p id="grade"></p>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card shadow p-4" style="width: 400px;">
+        <h4 class="card-title text-center mb-4">{{student.name}} 학생의 정보</h4>
+        <div class="card-body">
+            <p><strong>이름:</strong> {{student.name}}</p>
+            <p><strong>학번:</strong> {{student.studentNumber}}</p>
+            <p><strong>이메일:</strong> {{student.email}}</p>
+            <p><strong>전공:</strong> {{student.major}}</p>
+            <p id="grade"><strong>학년:</strong> {{student.grade}}</p>
+        </div>
+        <div class="d-flex justify-content-between mt-3">
+            <a href="/student/profile/edit" class="btn btn-primary btn-sm">정보 수정</a>
+            <a href="/student/dashboard" class="btn btn-secondary btn-sm">대시보드로</a>
+        </div>
+    </div>
+</div>
 
-<a href="/student/profile/edit">[정보 수정]</a> |
-<a href="/student/dashboard">[대시보드로]</a>
 </body>
 </html>
+
 
 <script>
 

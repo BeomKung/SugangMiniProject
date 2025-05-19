@@ -3,16 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>정보 수정</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<h2>{{student.name}} 정보 수정</h2>
+<body class="bg-light">
 
-<form action="/student/profile/edit" method="post">
-    <p>이메일: <input type="email" name="email" value="{{student.email}}" required></p>
-    <p>비밀번호: <input type="password" name="password" required></p>
-    <button type="submit">저장</button>
-</form>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card shadow p-4" style="width: 400px;">
+        <h4 class="card-title text-center mb-4">{{student.name}} 정보 수정</h4>
+        <form action="/student/profile/edit" method="post">
+            <div class="mb-3">
+                <label for="email" class="form-label">이메일</label>
+                <input type="email" id="email" name="email" class="form-control" value="{{student.email}}" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">비밀번호</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">저장</button>
+                <a href="/student/profile" class="btn btn-secondary">← 프로필로 돌아가기</a>
+            </div>
+        </form>
+    </div>
+</div>
 
-<a href="/student/profile">← 프로필로 돌아가기</a>
 </body>
 </html>
