@@ -4,17 +4,19 @@ import com.example.SugangMiniProject.Entity.Subject;
 import com.example.SugangMiniProject.Repository.AdminRepository;
 import com.example.SugangMiniProject.Repository.SubjectRepository;
 import com.example.SugangMiniProject.Service.SubjectService;
+import com.example.SugangMiniProject.dto.SubjectViewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,6 +30,7 @@ public class SubjectController {
     @Autowired
     private SubjectService subjectService;
 
+
     // 강의 등록
     @GetMapping("/admin/add_lecture")
     public String showAddLectureForm(Model model) {
@@ -37,14 +40,38 @@ public class SubjectController {
 
     //강의 등록
     @PostMapping("/admin/add_lecture")
-    public String addLecture(@ModelAttribute Subject subject, RedirectAttributes redirectAttributes) {
+    public String addLecture(@ModelAttribute Subject subject,
+                             RedirectAttributes redirectAttributes) {
+
+        // 중복 체크
         if (subjectService.isDuplicateLecture(subject)) {
-            redirectAttributes.addFlashAttribute("error", "⚠ 동일한 과목코드/교수/시간 조합이 이미 존재합니다.");
+            redirectAttributes.addFlashAttribute("error", " 동일한 과목코드/교수/시간 조합이 이미 존재합니다.");
             return "redirect:/admin/lecture_index";
         }
 
+        // 파일 업로드 (syllabusFile은 선택사항)
+        MultipartFile syllabusFile = subject.getUploadedSyllabusFile();
+        if (syllabusFile != null && !syllabusFile.isEmpty()) {
+            try {
+                // 운영체제에 따라 수정 가능
+                String uploadDir = new File("src/main/resources/static/uploads").getAbsolutePath();
+                String fileName = UUID.randomUUID() + "_" + syllabusFile.getOriginalFilename();
+                File saveFile = new File(uploadDir, fileName);
+                syllabusFile.transferTo(saveFile);
+
+                // DB에는 상대 경로 저장
+                subject.setSyllabusFile("/uploads/" + fileName);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                redirectAttributes.addFlashAttribute("error", " 강의계획서 업로드 중 오류가 발생했습니다.");
+                return "redirect:/admin/lecture_index";
+            }
+        }
+
+        // 저장
         subjectService.save(subject);
-        redirectAttributes.addFlashAttribute("msg", "과목이 성공적으로 등록되었습니다.");
+        redirectAttributes.addFlashAttribute("msg", " 과목이 성공적으로 등록되었습니다.");
         return "redirect:/admin/lecture_index";
     }
 
@@ -52,7 +79,15 @@ public class SubjectController {
     @GetMapping("/admin/lecture_index")
     public String showLectureIndex(Model model) {
         List<Subject> subjects = subjectRepository.findAll();
-        model.addAttribute("subjects", subjects);
+
+        List<SubjectViewDto> subjectDtos = subjects.stream().map(subject -> {
+            SubjectViewDto dto = new SubjectViewDto();
+            dto.setSubject(subject);
+            dto.setEnrolled(false); // 관리자 화면에서는 사용 X
+            return dto;
+        }).toList();
+
+        model.addAttribute("subjects", subjectDtos);
         return "admin/lecture_index";
     }
 

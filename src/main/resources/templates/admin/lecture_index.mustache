@@ -35,11 +35,13 @@
             <th scope="col">종료시간</th>
             <th scope="col">학점</th>
             <th scope="col">정원</th>
+            <th scope="col">강의계획서</th>
+            <th scope="col">강의개요</th>
             <th scope="col">신청</th>
         </tr>
         </thead>
         <tbody>
-        {{#subject}}
+        {{#subjects}}
             <tr>
                 <td>{{courseType}}</td>
                 <td>{{department}}</td>
@@ -48,10 +50,20 @@
                 <td>{{subjectName}}</td>
                 <td>{{professor}}</td>
                 <td>{{weekday}}</td>
-                <td>{{startTime}}</td>
-                <td>{{endTime}}</td>
+                <td>{{formattedStartTime}}</td>
+                <td>{{formattedEndTime}}</td>
                 <td>{{credit}}</td>
                 <td>{{capacity}}</td>
+                <td>
+                    {{#syllabusFile}}
+                        <a href="{{syllabusFile}}" download class="btn btn-sm btn-info">다운로드</a>
+                    {{/syllabusFile}}
+                    {{^syllabusFile}}-{{/syllabusFile}}
+                </td>
+                <td>
+                    {{#plan}}{{plan}}{{/plan}}
+                    {{^plan}}-{{/plan}}
+                </td>
                 <td>
                     <a href="/admin/lecture/edit/{{id}}" class="btn btn-sm btn-warning">수정</a>
                     <form method="post" action="/admin/lecture/delete/{{id}}" style="display:inline;">
@@ -59,7 +71,7 @@
                     </form>
                 </td>
             </tr>
-        {{/subject}}
+        {{/subjects}}
         </tbody>
     </table>
 </div>

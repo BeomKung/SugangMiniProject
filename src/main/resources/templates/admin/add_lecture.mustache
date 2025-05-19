@@ -21,7 +21,7 @@
         <a href="/admin/dashboard" class="btn btn-danger">관리자 페이지 돌아가기</a>
     </div>
 
-    <form method="post" action="/admin/add_lecture">
+    <form method="post" action="/admin/add_lecture" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="courseType" class="form-label">이수구분</label>
             <select class="form-select" name="courseType">
@@ -125,8 +125,8 @@
         </div>
 
         <div class="mb-3">
-            <label for="syllabusFile" class="form-label">강의계획서</label>
-            <input type="file" class="form-control" id="syllabusFile" name="syllabusFile">
+            <label for="uploadedSyllabusFile" class="form-label">강의계획서</label>
+            <input type="file" class="form-control" id="uploadedSyllabusFile" name="uploadedSyllabusFile">
         </div>
 
         <div class="mb-3">

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalTime;
 
@@ -39,16 +41,27 @@ public class Subject {
     @Column
     private String weekday;
 
+    @DateTimeFormat(pattern = "HH:mm")
     @Column(columnDefinition = "TIME")
-    private String startTime;
+    private LocalTime startTime;
 
+    @DateTimeFormat(pattern = "HH:mm")
     @Column(columnDefinition = "TIME")
-    private String endTime;
+    private LocalTime endTime;
 
     @Column
     private int credit;
 
     @Column
     private int capacity;
+
+    @Column(nullable = false, length = 1000)
+    private String plan; //강의 개요
+
+    @Column(nullable = true)
+    private String syllabusFile; // 강의 계획서
+
+    @Transient
+    private MultipartFile uploadedSyllabusFile; // 실제 업로드된 파일 (DB 저장 X)
 
 }
