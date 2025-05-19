@@ -102,19 +102,19 @@
         </tr>
         </thead>
         <tbody>
-        {{#subjects}}
+        {{#subjectViews}}
             <tr>
-                <td>{{courseType}}</td>
-                <td>{{department}}</td>
-                <td>{{grade}}</td>
-                <td>{{subjectCode}}</td>
-                <td>{{subjectName}}</td>
-                <td>{{professor}}</td>
-                <td>{{weekday}}</td>
-                <td>{{startTime}}</td>
-                <td>{{endTime}}</td>
-                <td>{{credit}}</td>
-                <td>{{capacity}}</td>
+                <td>{{subject.courseType}}</td>
+                <td>{{subject.department}}</td>
+                <td>{{subject.grade}}</td>
+                <td>{{subject.subjectCode}}</td>
+                <td>{{subject.subjectName}}</td>
+                <td>{{subject.professor}}</td>
+                <td>{{subject.weekday}}</td>
+                <td>{{subject.startTime}}</td>
+                <td>{{subject.endTime}}</td>
+                <td>{{subject.credit}}</td>
+                <td>{{subject.capacity}}</td>
                 <td>현재 강의를 신청한 사람의 수 / {{capacity}}</td>
                 <td>
                     <a href="/강의계획서 다운로드 테스트.txt" download>강의계획서 다운로드</a>
@@ -126,13 +126,18 @@
                     강의 개요가 들어갈 자리
                 </td>
                 <td>
-                    <form method="post" action="/student/enroll">
-                        <input type="hidden" name="subjectId" value="{{id}}">
-                        <button type="submit" class="btn btn-outline-success btn-sm">신청</button>
-                    </form>
+                    {{#enrolled}}
+                        <button type="button" class="btn btn-secondary btn-sm" disabled>신청 완료</button>
+                    {{/enrolled}}
+                    {{^enrolled}}
+                        <form method="post" action="/student/enroll">
+                            <input type="hidden" name="subjectId" value="{{subject.id}}">
+                            <button type="submit" class="btn btn-outline-success btn-sm">신청</button>
+                        </form>
+                    {{/enrolled}}
                 </td>
             </tr>
-        {{/subjects}}
+        {{/subjectViews}}
         </tbody>
     </table>
 </div>

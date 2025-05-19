@@ -7,6 +7,7 @@ import com.example.SugangMiniProject.Repository.StudentRepository;
 import com.example.SugangMiniProject.Repository.SubjectRepository;
 import com.example.SugangMiniProject.Service.StudentDetails;
 import com.example.SugangMiniProject.Service.StudentService;
+import com.example.SugangMiniProject.dto.SubjectViewDto;
 import org.hibernate.LazyInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,8 @@ import org.springframework.security.core.Authentication;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class DashboardController {
@@ -42,13 +45,31 @@ public class DashboardController {
     @GetMapping("/student/dashboard")
     public String studentDashboard(Model model, Authentication authentication) {
         StudentDetails studentDetails = (StudentDetails) authentication.getPrincipal();
-        Student student = studentDetails.getStudent();
+        Student sessionStudent = studentDetails.getStudent();
 
-        List<Subject> subjects = subjectRepository.findAll(); // 모든 과목 조회 (필터링은 나중에)
+        // 세션 말고 DB에서 다시 조회 (LazyInitializationException 방지)
+        Student student = studentRepository.findByStudentNumberWithSubjects(sessionStudent.getStudentNumber())
+                .orElseThrow(() -> new RuntimeException("학생을 찾을 수 없습니다."));
+
+        List<Subject> allSubjects = subjectRepository.findAll();
+
+        Set<String> enrolledSubjectCodes = student.getSubjects().stream()
+                .map(Subject::getSubjectCode)
+                .collect(Collectors.toSet());
+
+        List<SubjectViewDto> subjectDtos = allSubjects.stream()
+                .map(subject -> {
+                    SubjectViewDto dto = new SubjectViewDto();
+                    dto.setSubject(subject);
+                    dto.setEnrolled(enrolledSubjectCodes.contains(subject.getSubjectCode()));
+                    return dto;
+                })
+                .collect(Collectors.toList());
+
+        model.addAttribute("subjectViews", subjectDtos);
         model.addAttribute("student", student);
-        model.addAttribute("subjects", subjects);
 
-        return "student_dashboard"; // student_dashboard.mustache
+        return "student_dashboard";
     }
 
     @GetMapping("/student/profile")
@@ -113,10 +134,8 @@ public class DashboardController {
 
         studentService.enrollSubject(student, subjectId);
 
-        return "redirect:/student/profile";
+        return "redirect:/student/dashboard";
     }
-
-
 
 
 
