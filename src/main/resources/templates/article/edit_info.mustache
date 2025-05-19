@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <title>mini_project</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="http://localhost:8080/main">내 정보 수정</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="ms-auto d-flex">
+                <a href="/my_page" class="btn btn-success me-2">My Page</a>
+                <a href="/login" class="btn btn-danger">로그아웃</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+<div class="container mt-5" style="max-width: 500px;">
+    <div class="card shadow rounded">
+        <div class="card-body">
+            <h4 class="card-title mb-4 text-center">내 정보 수정</h4>
+
+            <div class="form-group mb-3">
+                <label for="student_id">학번</label>
+                <input type="text" class="form-control" id="studentNumber" placeholder="{{student.studentNumber}}" disabled>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="student_id">이름</label>
+                <input type="text" class="form-control" id="name" placeholder="{{student.name}}" disabled>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="account">계정</label>
+                <input type="text" class="form-control" id="email" placeholder="수정할 계정을 입력하세요">
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="password">비밀번호</label>
+                <input type="password" class="form-control" id="password" placeholder="수정할 비밀번호를 입력하세요">
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="major">전공</label>
+                <input type="text" class="form-control" id="major" placeholder="{{student.major}}" disabled>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="grade">학년</label>
+                <input type="text" class="form-control" id="grade" placeholder="{{student.grade}}" disabled>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">저장하기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelector('button[type="submit"]').addEventListener('click', async function () {
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        if (!email || !password) {
+            alert('계정과 비밀번호는 필수입니다.');
+            return;
+        }
+
+        // 실제 요청은 아직 보류, 아래는 성공/실패 시뮬레이션
+        try {
+            // 나중에 fetch 요청 추가하면 여기에서 처리
+            // 예: const response = await fetch('/update', { ... })
+
+            // 성공 가정
+            alert('수정되었습니다. 수정된 계정과 패스워드로 다시 로그인 하세요.');
+            location.href = '/login';
+        } catch (e) {
+            alert('정보 수정 실패');
+        }
+    });
+</script>
+
+{{> layouts/footer}}
