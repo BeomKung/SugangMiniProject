@@ -35,6 +35,8 @@
             <th scope="col">종료시간</th>
             <th scope="col">학점</th>
             <th scope="col">정원</th>
+            <th scope="col">강의계획서</th>
+            <th scope="col">강의 개요</th>
             <th scope="col">신청</th>
         </tr>
         </thead>
@@ -53,6 +55,13 @@
                 <td>{{credit}}</td>
                 <td>{{capacity}}</td>
                 <td>
+                    <a href="/강의계획서 다운로드 테스트.txt" download>강의계획서 다운로드</a>
+                </td>
+                <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer;"
+                    data-bs-toggle="modal" data-bs-target="#lectureModal" data-content="이 자리에 강의 개요의 내용이 들어가면 됨">
+                    강의 개요
+                </td>
+                <td>
                     <a href="/admin/lecture/edit/{{id}}" class="btn btn-sm btn-warning">수정</a>
                     <form method="post" action="/admin/lecture/delete/{{id}}" style="display:inline;">
                         <button type="submit" class="btn btn-sm btn-danger">삭제</button>
@@ -62,6 +71,23 @@
         {{/subject}}
         </tbody>
     </table>
+</div>
+
+<div class="modal fade" id="lectureModal" tabindex="-1" aria-labelledby="lectureModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lectureModalLabel">강의 개요</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+            </div>
+            <div class="modal-body">
+                이 자리에 강의 개요의 내용이 들어감
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
