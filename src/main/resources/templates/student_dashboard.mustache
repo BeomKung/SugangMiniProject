@@ -95,6 +95,9 @@
             <th>종료시간</th>
             <th>학점</th>
             <th>정원</th>
+            <th>수강 인원</th>
+            <th>강의계획서</th>
+            <th>강의 개요</th>
             <th>신청</th>
         </tr>
         </thead>
@@ -112,6 +115,11 @@
                 <td>{{endTime}}</td>
                 <td>{{credit}}</td>
                 <td>{{capacity}}</td>
+                <td>  </td>
+                <td>
+                    <a href="/강의계획서 다운로드 테스트.txt" download>강의계획서 다운로드</a>
+                </td>
+                <td>  </td>
                 <td>
                     <form method="post" action="/student/enroll">
                         <input type="hidden" name="subjectId" value="{{id}}">

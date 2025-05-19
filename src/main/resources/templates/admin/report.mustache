@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>수강신청 통계 및 분석</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['core chart', 'bar']});
+        google.charts.setOnLoadCallback(drawCharts);
+
+        function drawCharts() {
+          drawSubjectChart();
+          drawStatusChart();
+          drawDemandChart();
+        }
+
+        function drawSubjectChart() {
+          var data = google.visualization.arrayToDataTable([
+            ['과목명', '신청자 수'],
+            ['자료구조', 30],
+            ['알고리즘', 25],
+            ['운영체제', 15],
+            ['데이터베이스', 20]
+          ]);
+
+          var options = {
+            title: '과목별 수강 신청자 수 통계',
+            chartArea: {width: '60%'},
+            hAxis: {title: '신청자 수', minValue: 0},
+            vAxis: {title: '과목명'},
+            legend: { position: 'none' }
+          };
+
+          var chart = new google.visualization.BarChart(document.getElementById('subject_chart'));
+          chart.draw(data, options);
+        }
+
+        function drawStatusChart() {
+          var data = google.visualization.arrayToDataTable([
+            ['상태', '인원수'],
+            ['완료', 40],
+            ['대기', 10],
+            ['취소', 5]
+          ]);
+
+          var options = {
+            title: '수강신청 완료/대기/취소 통계',
+            pieHole: 0.4,
+            width: 400,
+            height: 300
+          };
+
+          var chart = new google.visualization.PieChart(document.getElementById('status_chart'));
+          chart.draw(data, options);
+        }
+
+        function drawDemandChart() {
+          var data = google.visualization.arrayToDataTable([
+            ['시간대', '영어영문학과', '컴퓨터공학과', '디자인학과', '교양학부'],
+            ['9시~11시', 5, 15, 10, 8],
+            ['11시~13시', 7, 18, 12, 9],
+            ['14시~16시', 6, 12, 8, 10],
+            ['16시~18시', 4, 10, 7, 6]
+          ]);
+
+          var options = {
+            title: '시간대별/전공별 수요 분석',
+            chartArea: {width: '50%'},
+            hAxis: {title: '수강생 수', minValue: 0},
+            vAxis: {title: '시간대'},
+            bars: 'horizontal',
+            isStacked: true,
+            height: 350
+          };
+
+          var chart = new google.visualization.BarChart(document.getElementById('demand_chart'));
+          chart.draw(data, options);
+        }
+
+        window.addEventListener('resize', drawCharts);
+    </script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="http://localhost:8080/admin">관리자 페이지</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="ms-auto">
+                <a href="/admin" class="btn btn-danger">관리자 페이지 돌아가기</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">통계 및 리포트</h2>
+    <div class="row gy-4">
+        <div class="col-md-6">
+            <div id="subject_chart" style="width: 100%; height: 350px;"></div>
+        </div>
+        <div class="col-md-6">
+            <div id="status_chart" style="width: 100%; height: 350px;"></div>
+        </div>
+        <div class="col-12">
+            <div id="demand_chart" style="width: 100%; height: 400px;"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
