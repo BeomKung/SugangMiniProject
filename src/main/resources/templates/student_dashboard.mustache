@@ -115,11 +115,16 @@
                 <td>{{endTime}}</td>
                 <td>{{credit}}</td>
                 <td>{{capacity}}</td>
-                <td>  </td>
+                <td>현재 강의를 신청한 사람의 수 / {{capacity}}</td>
                 <td>
                     <a href="/강의계획서 다운로드 테스트.txt" download>강의계획서 다운로드</a>
                 </td>
-                <td>  </td>
+                <td>
+                    <a href="/강의계획서 다운로드 테스트.txt" download>강의계획서 다운로드</a>
+                </td>
+                <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="이 자리에 강의 개요의 내용이 들어가면 됨">
+                    강의 개요가 들어갈 자리
+                </td>
                 <td>
                     <form method="post" action="/student/enroll">
                         <input type="hidden" name="subjectId" value="{{id}}">
