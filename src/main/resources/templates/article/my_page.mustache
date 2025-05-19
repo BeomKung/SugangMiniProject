@@ -15,21 +15,53 @@
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="ms-auto d-flex">
+                <a href="/main" class="btn btn-primary me-2">수강신청</a>
+                <a href="/login" class="btn btn-danger">로그아웃</a>
+            </div>
         </div>
     </div>
 </nav>
-
-<div class="d-flex justify-content-end mb-3">
-    <a href="/main" class="btn btn-primary me-2">수강신청</a>
-    <a href="/login" class="btn btn-danger">로그아웃</a>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 
-<h1 class="ms-5 mt-5 mb-5">***의 페이지</h1>
+<h2 class="text-center mt-5 mb-4" style="color: #4a90e2; font-weight: bold;">나의 정보</h2>
+
+<table class="table mb-5">
+    <thead>
+    <tr>
+        <th scope="col">학번</th>
+        <th scope="col">이름</th>
+        <th scope="col">계정</th>
+        <th scope="col">비밀번호</th>
+        <th scope="col">전공</th>
+        <th scope="col">학년</th>
+        <th scope="col">수정하기</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{student.studentNumber}}</td>
+        <td>{{student.name}}</td>
+        <td>{{student.email}}</td>
+        <td>
+            <input type="password" value="{{student.password}}" readonly style="border:none; background: transparent; width: 100px;">
+        </td>
+        <td>{{student.major}}</td>
+        <td>{{student.grade}}</td>
+        <td>
+            <a href="/information" class="btn btn-success me-2">내 정보 수정</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+<h2 class="text-center mt-5 mb-4" style="color: #4a90e2; font-weight: bold;">나의 수강신청 목록</h2>
 
 <table class="table">
     <thead>
@@ -37,35 +69,33 @@
         <th scope="col">이수구분</th> <!--전공인지 교양인지-->
         <th scope="col">개설학과</th>
         <th scope="col">학년</th>
-        <th scope="col">강좌번호</th>
         <th scope="col">과목코드</th>
         <th scope="col">과목명</th>
         <th scope="col">교수명</th>
+        <th scope="col">요일</th>
+        <th scope="col">시작시간</th>
+        <th scope="col">종료시간</th>
+        <th scope="col">학점</th>
+        <th scope="col">정원</th>
         <th scope="col">관리</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td>전공</td>
-        <td>컴퓨터공학과</td>
-        <td>2</td>
-        <td>101</td>
-        <td>CS101</td>
-        <td>자료구조</td>
-        <td>김교수</td>
+        <td>{{subject.courseType}}</td>
+        <td>{{subject.department}}</td>
+        <td>{{subject.grade}}</td>
+        <td>{{subject.subjectCode}}</td>
+        <td>{{subject.subjectName}}</td>
+        <td>{{subject.professor}}</td>
+        <td>{{subject.weekday}}</td>
+        <td>{{subject.startTime}}</td>
+        <td>{{subject.endTime}}</td>
+        <td>{{subject.credit}}</td>
+        <td>{{subject.capacity}}</td>
         <td>
             <a href="#" class="btn btn-sm btn-danger">수강취소</a>
         </td>
-    </tr>
-    <tr>
-        <td>전공</td>
-        <td>컴퓨터공학과</td>
-        <td>2</td>
-        <td>102</td>
-        <td>CS102</td>
-        <td>알고리즘</td>
-        <td>이교수</td>
-
     </tr>
     </tbody>
 
