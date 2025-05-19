@@ -45,19 +45,21 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>{{student.studentNumber}}</td>
-        <td>{{student.name}}</td>
-        <td>{{student.email}}</td>
-        <td>
-            <input type="password" value="{{student.password}}" readonly style="border:none; background: transparent; width: 100px;">
-        </td>
-        <td>{{student.major}}</td>
-        <td>{{student.grade}}</td>
-        <td>
-            <a href="/student/profile/edit" class="btn btn-success me-2">내 정보 수정</a>
-        </td>
-    </tr>
+    {{#students}}
+        <tr>
+            <td>{{studentNumber}}</td>
+            <td>{{name}}</td>
+            <td>{{email}}</td>
+            <td>
+                <input type="password" value="{{password}}" readonly style="border:none; background: transparent; width: 100px;">
+            </td>
+            <td>{{major}}</td>
+            <td>{{grade}}</td>
+            <td>
+                <a href="/student/profile/edit" class="btn btn-success me-2">내 정보 수정</a>
+            </td>
+        </tr>
+    {{/students}}
     </tbody>
 </table>
 

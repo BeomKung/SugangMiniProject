@@ -39,14 +39,16 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>{{notice.title}}</td>
-            <td>{{notice.content}}</td>
-            <td>
-                <a href="#" class="btn btn-sm btn-warning">수정</a>
-                <a href="#" class="btn btn-sm btn-danger">삭제</a>
-            </td>
-        </tr>
+        {{#notices}}
+            <tr>
+                <td>{{title}}</td>
+                <td>{{content}}</td>
+                <td>
+                    <a href="#" class="btn btn-sm btn-warning">수정</a>
+                    <a href="#" class="btn btn-sm btn-danger">삭제</a>
+                </td>
+            </tr>
+        {{/notices}}
         </tbody>
     </table>
 
