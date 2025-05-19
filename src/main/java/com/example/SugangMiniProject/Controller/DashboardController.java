@@ -6,12 +6,16 @@ import com.example.SugangMiniProject.Repository.AdminRepository;
 import com.example.SugangMiniProject.Repository.StudentRepository;
 import com.example.SugangMiniProject.Repository.SubjectRepository;
 import com.example.SugangMiniProject.Service.StudentDetails;
+import com.example.SugangMiniProject.Service.StudentService;
+import org.hibernate.LazyInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -22,6 +26,10 @@ public class DashboardController {
 
     @Autowired
     private AdminRepository adminRepository;
+
+    @Autowired
+    private StudentService studentService;
+
 
     @Autowired
     private SubjectRepository subjectRepository;
@@ -43,13 +51,17 @@ public class DashboardController {
         return "student_dashboard"; // student_dashboard.mustache
     }
 
-    @GetMapping("/student/profile") //학생 상세정보 출력
+    @GetMapping("/student/profile")
     public String studentProfilePage(Authentication authentication, Model model) {
         StudentDetails studentDetails = (StudentDetails) authentication.getPrincipal();
-        Student student = studentDetails.getStudent();
+        String studentNumber = studentDetails.getStudent().getStudentNumber();
+
+        Student student = studentService.findByStudentNumberWithSubjects(studentNumber);
 
         model.addAttribute("student", student);
-        return "student_profile"; // templates/student_profile.mustache
+        model.addAttribute("subjects", student.getSubjects());
+
+        return "article/my_page";
     }
 
 
@@ -73,6 +85,38 @@ public class DashboardController {
 
         return "redirect:/student/profile";
     }
+
+    @PostMapping("/student/subject/cancel/{id}")
+    public String cancelSubject(@PathVariable Long id, Authentication auth) {
+        StudentDetails studentDetails = (StudentDetails) auth.getPrincipal();
+        String studentNumber = studentDetails.getStudent().getStudentNumber();
+
+        //세션에 연결된 Student 객체를 fetch join으로 다시 조회
+        Student student = studentRepository.findByStudentNumberWithSubjects(studentNumber)
+                .orElseThrow(() -> new RuntimeException("학생을 찾을 수 없습니다."));
+
+        Subject subject = subjectRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("과목을 찾을 수 없습니다."));
+
+        // 수강 연결 해제
+        student.getSubjects().remove(subject);
+
+        studentRepository.save(student); // student_subject 테이블에서 제거됨
+
+        return "redirect:/student/profile";
+    }
+
+    @PostMapping("/student/enroll")
+    public String enrollSubject(@RequestParam("subjectId") Long subjectId, Authentication authentication) {
+        StudentDetails studentDetails = (StudentDetails) authentication.getPrincipal();
+        Student student = studentDetails.getStudent();
+
+        studentService.enrollSubject(student, subjectId);
+
+        return "redirect:/student/profile";
+    }
+
+
 
 
 

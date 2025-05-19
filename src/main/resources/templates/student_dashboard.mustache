@@ -112,7 +112,12 @@
                 <td>{{endTime}}</td>
                 <td>{{credit}}</td>
                 <td>{{capacity}}</td>
-                <td><button class="btn btn-outline-success btn-sm">신청</button></td>
+                <td>
+                    <form method="post" action="/student/enroll">
+                        <input type="hidden" name="subjectId" value="{{id}}">
+                        <button type="submit" class="btn btn-outline-success btn-sm">신청</button>
+                    </form>
+                </td>
             </tr>
         {{/subjects}}
         </tbody>

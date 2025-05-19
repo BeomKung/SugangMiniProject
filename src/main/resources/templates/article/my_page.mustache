@@ -19,7 +19,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="ms-auto d-flex">
                 <a href="/timetable" class="btn btn-success me-2">시간표</a>
-                <a href="/main" class="btn btn-primary me-2">수강신청</a>
+                <a href="/student/dashboard" class="btn btn-primary me-2">돌아가기</a>
                 <a href="/login" class="btn btn-danger">로그아웃</a>
             </div>
         </div>
@@ -55,7 +55,7 @@
         <td>{{student.major}}</td>
         <td>{{student.grade}}</td>
         <td>
-            <a href="/information" class="btn btn-success me-2">내 정보 수정</a>
+            <a href="/student/profile/edit" class="btn btn-success me-2">내 정보 수정</a>
         </td>
     </tr>
     </tbody>
@@ -82,22 +82,31 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>{{subject.courseType}}</td>
-        <td>{{subject.department}}</td>
-        <td>{{subject.grade}}</td>
-        <td>{{subject.subjectCode}}</td>
-        <td>{{subject.subjectName}}</td>
-        <td>{{subject.professor}}</td>
-        <td>{{subject.weekday}}</td>
-        <td>{{subject.startTime}}</td>
-        <td>{{subject.endTime}}</td>
-        <td>{{subject.credit}}</td>
-        <td>{{subject.capacity}}</td>
-        <td>
-            <a href="#" class="btn btn-sm btn-danger">수강취소</a>
-        </td>
-    </tr>
+    {{#subjects}}
+        <tr>
+            <td>{{courseType}}</td>
+            <td>{{department}}</td>
+            <td>{{grade}}</td>
+            <td>{{subjectCode}}</td>
+            <td>{{subjectName}}</td>
+            <td>{{professor}}</td>
+            <td>{{weekday}}</td>
+            <td>{{startTime}}</td>
+            <td>{{endTime}}</td>
+            <td>{{credit}}</td>
+            <td>{{capacity}}</td>
+            <td>
+                <form method="post" action="/student/subject/cancel/{{id}}">
+                    <button type="submit" class="btn btn-sm btn-danger">수강취소</button>
+                </form>
+            </td>
+        </tr>
+    {{/subjects}}
+    {{^subjects}}
+        <tr>
+            <td colspan="12" class="text-center">아직 수강한 과목이 없습니다.</td>
+        </tr>
+    {{/subjects}}
     </tbody>
 
 </table>
