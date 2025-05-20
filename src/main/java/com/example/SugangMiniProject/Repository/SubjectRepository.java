@@ -3,6 +3,8 @@ package com.example.SugangMiniProject.Repository;
 
 import com.example.SugangMiniProject.Entity.Subject;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalTime;
 
@@ -16,4 +18,6 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
             LocalTime startTime,
             LocalTime endTime
     );
+    @Query("SELECT COUNT(s) FROM Student s JOIN s.subjects sub WHERE sub = :subject")
+    int countStudentsBySubject(@Param("subject") Subject subject);
 }

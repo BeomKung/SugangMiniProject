@@ -54,7 +54,7 @@ public class SubjectController {
         if (syllabusFile != null && !syllabusFile.isEmpty()) {
             try {
                 // 운영체제에 따라 수정 가능
-                String uploadDir = new File("src/main/resources/static/uploads").getAbsolutePath();
+                String uploadDir = "C:/Users/user/Desktop/upload/";
                 String fileName = UUID.randomUUID() + "_" + syllabusFile.getOriginalFilename();
                 File saveFile = new File(uploadDir, fileName);
                 syllabusFile.transferTo(saveFile);

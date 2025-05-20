@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 public class SubjectViewDto {
     private Subject subject;
     private boolean enrolled;
-
+    private int enrolledCount;
     public String getFormattedStartTime() {
         if (subject.getStartTime() == null) return "-";
         return subject.getStartTime().format(DateTimeFormatter.ofPattern("HH:mm"));
@@ -74,4 +74,5 @@ public class SubjectViewDto {
     public String getSyllabusFile() {
         return subject.getSyllabusFile();
     }
+
 }

@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,29 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <title>mini_project</title>
-
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="http://localhost:8080/student/dashboard">수강신청</a>
-
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-            <!-- 가운데 정렬 -->
             <div class="mx-auto text-center">
                 <span>{{student.name}}</span>
                 <span>{{student.major}}</span>
                 <span>{{student.grade}}학년</span>
             </div>
-
-            <!-- 오른쪽 정렬 -->
             <div class="d-flex">
-                <a href="/notice" class="btn btn-link me-2">공지사항</a>
+                <a href="/notice" class="btn btn-primary me-2">공지사항</a>
                 <a href="/student/profile" class="btn btn-success me-2">My Page</a>
                 <a href="/login" class="btn btn-danger">로그아웃</a>
             </div>
@@ -36,15 +29,8 @@
     </div>
 </nav>
 
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-
 <div class="container mt-3">
     <h2 class="text-center mb-4" style="color: #4a90e2; font-weight: bold;">수강신청</h2>
-
-    <!-- 필터 -->
     <div class="row mb-4">
         <div class="col-md-3">
             <select class="form-select">
@@ -80,7 +66,6 @@
         </div>
     </div>
 
-    <!-- 강의 목록 -->
     <table class="table table-hover text-center align-middle">
         <thead class="table-light">
         <tr>
@@ -104,27 +89,32 @@
         <tbody>
         {{#subjectViews}}
             <tr>
-                <td>{{subject.courseType}}</td>
-                <td>{{subject.department}}</td>
-                <td>{{subject.grade}}</td>
-                <td>{{subject.subjectCode}}</td>
-                <td>{{subject.subjectName}}</td>
-                <td>{{subject.professor}}</td>
-                <td>{{subject.weekday}}</td>
+                <td>{{courseType}}</td>
+                <td>{{department}}</td>
+                <td>{{grade}}</td>
+                <td>{{subjectCode}}</td>
+                <td>{{subjectName}}</td>
+                <td>{{professor}}</td>
+                <td>{{weekday}}</td>
                 <td>{{formattedStartTime}}</td>
                 <td>{{formattedEndTime}}</td>
-                <td>{{subject.credit}}</td>
-                <td>{{subject.capacity}}</td>
-                <td>현재 강의를 신청한 사람의 수 / {{capacity}}</td>
+                <td>{{credit}}</td>
+                <td>{{capacity}}</td>
+                <td>{{enrolledCount}}</td>
                 <td>
-                    <a href="/강의계획서 다운로드 테스트.txt" download>강의계획서 다운로드</a>
+                    {{#syllabusFile}}
+                        <a href="{{syllabusFile}}" download>강의계획서 다운로드</a>
+                    {{/syllabusFile}}
+                    {{^syllabusFile}}-{{/syllabusFile}}
                 </td>
                 <td>
-                    <a href="/강의계획서 다운로드 테스트.txt" download>강의계획서 다운로드</a>
-                </td>
-                <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer;"
-                    data-bs-toggle="modal" data-bs-target="#lectureModal" data-content="이 자리에 강의 개요의 내용이 들어가면 됨">
-                    강의 개요
+                    <button type="button"
+                            class="btn btn-link p-0 lecture-plan-btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#lectureModal"
+                            data-bs-content="{{plan}}">
+                        강의 개요
+                    </button>
                 </td>
                 <td>
                     {{#enrolled}}
@@ -132,12 +122,11 @@
                     {{/enrolled}}
                     {{^enrolled}}
                         <form method="post" action="/student/enroll">
-                            <input type="hidden" name="subjectId" value="{{subject.id}}">
+                            <input type="hidden" name="subjectId" value="{{id}}" />
                             <button type="submit" class="btn btn-outline-success btn-sm">신청</button>
                         </form>
                     {{/enrolled}}
                 </td>
-            </tr>
         {{/subjectViews}}
         </tbody>
     </table>
@@ -150,8 +139,8 @@
                 <h5 class="modal-title" id="lectureModalLabel">강의 개요</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
             </div>
-            <div class="modal-body">
-                이 자리에 강의 개요의 내용이 들어감
+            <div class="modal-body" id="modalContent">
+                <!-- 강의 개요 내용 동적으로 삽입 -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
@@ -160,15 +149,18 @@
     </div>
 </div>
 
-<td>
-    <button class="btn btn-outline-secondary btn-sm" disabled>마감</button>
-</td>
-{{> layouts/footer}}
 <script>
-
     const grade = "{{student.grade}}";
+    const gradeText = /^[1-4]$/.test(grade) ? grade + "학년" : grade;
+    document.getElementById("grade").innerText = " " + gradeText;
 
-  const gradeText = /^[1-4]$/.test(grade) ? grade + "학년" : grade;
-  document.getElementById("grade").innerText = " " + gradeText;
-
+    document.getElementById('lectureModal').addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+    const content = button.getAttribute('data-bs-content');
+    document.getElementById('modalContent').textContent = content;
+    });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+{{> layouts/footer}}

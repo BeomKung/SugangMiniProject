@@ -3,6 +3,7 @@ package com.example.SugangMiniProject.Controller;
 import com.example.SugangMiniProject.Entity.Student;
 import com.example.SugangMiniProject.Entity.Subject;
 import com.example.SugangMiniProject.Repository.AdminRepository;
+import com.example.SugangMiniProject.Repository.EnrollmentRepository;
 import com.example.SugangMiniProject.Repository.StudentRepository;
 import com.example.SugangMiniProject.Repository.SubjectRepository;
 import com.example.SugangMiniProject.Service.StudentDetails;
@@ -33,6 +34,8 @@ public class DashboardController {
     @Autowired
     private StudentService studentService;
 
+    @Autowired
+    private EnrollmentRepository enrollmentRepository;
 
     @Autowired
     private SubjectRepository subjectRepository;
@@ -62,6 +65,10 @@ public class DashboardController {
                     SubjectViewDto dto = new SubjectViewDto();
                     dto.setSubject(subject);
                     dto.setEnrolled(enrolledSubjectCodes.contains(subject.getSubjectCode()));
+
+                    int count = subjectRepository.countStudentsBySubject(subject);
+                    dto.setEnrolledCount(count);
+
                     return dto;
                 })
                 .collect(Collectors.toList());
