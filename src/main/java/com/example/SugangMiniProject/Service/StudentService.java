@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class StudentService {
@@ -33,5 +35,12 @@ public class StudentService {
 
         student.getSubjects().add(subject);
         studentRepository.save(student);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Subject> getSubjectsWithTimetable(Long studentId) {
+        Student student = studentRepository.findByIdWithSubjects(studentId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 학생입니다."));
+        return student.getSubjects();
     }
 }

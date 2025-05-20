@@ -3,137 +3,135 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>나의 시간표</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <title>mini_project</title>
+    <style>
+        body {
+          background-color: #f8f9fa;
+        }
+
+
+        table.table th,
+        table.table td {
+          min-width: 110px;
+          height: 70px;
+          vertical-align: middle;
+        }
+        .subject-cell {
+          background-color: #e6f2ff;
+          border-radius: 8px;
+          padding: 6px 10px;
+          font-weight: 600;
+          font-size: 0.95rem;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+        .subject-time {
+          font-size: 0.8rem;
+          color: #555;
+        }
+    </style>
 </head>
 <body>
 
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="http://localhost:8080/main">My Page</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <a class="navbar-brand" href="/student/dashboard">My Page</a>
+        <div class="collapse navbar-collapse">
             <div class="ms-auto d-flex">
-                <a href="/my_page" class="btn btn-primary me-2">My Page</a>
+                <a href="/student/profile" class="btn btn-primary me-2">돌아가기</a>
                 <a href="/login" class="btn btn-danger">로그아웃</a>
             </div>
         </div>
     </div>
 </nav>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-
+<!-- Main Title -->
 <h2 class="text-center mt-5 mb-4" style="color: #4a90e2; font-weight: bold;">나의 시간표</h2>
 
+<!-- Time Table -->
 <div class="container my-5 d-flex justify-content-center">
     <div class="card shadow-lg w-auto">
-        <div class="card-body">
-            <!-- 👇 테두리 추가됨 -->
-            <table class="table table-hover table-bordered text-center align-middle mb-0">
+        <div class="card-body table-responsive">
+            <table class="table table-bordered text-center align-middle mb-0">
                 <thead class="table-light">
                 <tr>
-                    <th scope="col">교시</th>
-                    <th scope="col">월요일</th>
-                    <th scope="col">화요일</th>
-                    <th scope="col">수요일</th>
-                    <th scope="col">목요일</th>
-                    <th scope="col">금요일</th>
-                    <th scope="col">토요일</th>
-                    <th scope="col">일요일</th>
+                    <th>시간</th>
+                    <th>월</th>
+                    <th>화</th>
+                    <th>수</th>
+                    <th>목</th>
+                    <th>금</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>월요일 1교시</td>
-                    <td>화요일 1교시</td>
-                    <td>수요일 1교시</td>
-                    <td>목요일 1교시</td>
-                    <td>금요일 1교시</td>
-                    <td>토요일 1교시</td>
-                    <td>일요일 1교시</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>월요일 2교시</td>
-                    <td>화요일 2교시</td>
-                    <td>수요일 2교시</td>
-                    <td>목요일 2교시</td>
-                    <td>금요일 2교시</td>
-                    <td>토요일 2교시</td>
-                    <td>일요일 2교시</td>
+                {{#timeSlots}}
+                    <tr>
+                        <th>{{time}}</th>
 
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>월요일 3교시</td>
-                    <td>화요일 3교시</td>
-                    <td>수요일 3교시</td>
-                    <td>목요일 3교시</td>
-                    <td>금요일 3교시</td>
-                    <td>토요일 3교시</td>
-                    <td>일요일 3교시</td>
-                </tr>
-                <tr>
-                    <th scope="row">4</th>
-                    <td>월요일 4교시</td>
-                    <td>화요일 4교시</td>
-                    <td>수요일 4교시</td>
-                    <td>목요일 4교시</td>
-                    <td>금요일 4교시</td>
-                    <td>토요일 4교시</td>
-                    <td>일요일 4교시</td>
+                        <!-- 월 -->
+                        <td>
+                            {{#mon}}
+                                <div class="subject-cell">
+                                    {{subjectName}}<br>
+                                    <span class="subject-time">{{startTime}} ~ {{endTime}}</span>
+                                </div>
+                            {{/mon}}
+                            {{^mon}}<span class="text-muted">-</span>{{/mon}}
+                        </td>
 
-                </tr>
-                <tr>
-                    <th scope="row">5</th>
-                    <td>월요일 5교시</td>
-                    <td>화요일 5교시</td>
-                    <td>수요일 5교시</td>
-                    <td>목요일 5교시</td>
-                    <td>금요일 5교시</td>
-                    <td>토요일 5교시</td>
-                    <td>일요일 5교시</td>
-                </tr>
-                <tr>
-                    <th scope="row">6</th>
-                    <td>월요일 6교시</td>
-                    <td>화요일 6교시</td>
-                    <td>수요일 6교시</td>
-                    <td>목요일 6교시</td>
-                    <td>금요일 6교시</td>
-                    <td>토요일 6교시</td>
-                    <td>일요일 6교시</td>
-                </tr>
-                <tr>
-                    <th scope="row">7</th>
-                    <td>월요일 7교시</td>
-                    <td>화요일 7교시</td>
-                    <td>수요일 7교시</td>
-                    <td>목요일 7교시</td>
-                    <td>금요일 7교시</td>
-                    <td>토요일 7교시</td>
-                    <td>일요일 7교시</td>
-                </tr>
-                <tr>
-                    <th scope="row">8</th>
-                    <td>월요일 8교시</td>
-                    <td>화요일 8교시</td>
-                    <td>수요일 8교시</td>
-                    <td>목요일 8교시</td>
-                    <td>금요일 8교시</td>
-                    <td>토요일 8교시</td>
-                    <td>일요일 8교시</td>
-                </tr>
+                        <!-- 화 -->
+                        <td>
+                            {{#tue}}
+                                <div class="subject-cell">
+                                    {{subjectName}}<br>
+                                    <span class="subject-time">{{startTime}} ~ {{endTime}}</span>
+                                </div>
+                            {{/tue}}
+                            {{^tue}}<span class="text-muted">-</span>{{/tue}}
+                        </td>
+
+                        <!-- 수 -->
+                        <td>
+                            {{#wed}}
+                                <div class="subject-cell">
+                                    {{subjectName}}<br>
+                                    <span class="subject-time">{{startTime}} ~ {{endTime}}</span>
+                                </div>
+                            {{/wed}}
+                            {{^wed}}<span class="text-muted">-</span>{{/wed}}
+                        </td>
+
+                        <!-- 목 -->
+                        <td>
+                            {{#thu}}
+                                <div class="subject-cell">
+                                    {{subjectName}}<br>
+                                    <span class="subject-time">{{startTime}} ~ {{endTime}}</span>
+                                </div>
+                            {{/thu}}
+                            {{^thu}}<span class="text-muted">-</span>{{/thu}}
+                        </td>
+
+                        <!-- 금 -->
+                        <td>
+                            {{#fri}}
+                                <div class="subject-cell">
+                                    {{subjectName}}<br>
+                                    <span class="subject-time">{{startTime}} ~ {{endTime}}</span>
+                                </div>
+                            {{/fri}}
+                            {{^fri}}<span class="text-muted">-</span>{{/fri}}
+                        </td>
+
+                    </tr>
+                {{/timeSlots}}
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

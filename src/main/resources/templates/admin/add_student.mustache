@@ -3,59 +3,104 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>학생 등록</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <title>mini_project</title>
+    <style>
+        body {
+          background-color: #f8f9fa;
+        }
+        .navbar {
+          background-color: #343a40 !important;
+        }
+        .navbar .navbar-brand {
+          color: white !important;
+          font-weight: bold;
+        }
+        .form-container {
+          background-color: #fff;
+          padding: 40px;
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+          margin-top: 40px;
+        }
+        h1 {
+          color: #4a90e2;
+          font-weight: bold;
+          margin-top: 40px;
+        }
+        .form-label {
+          font-weight: 500;
+        }
+        .btn-primary {
+          background-color: #4a90e2;
+          border: none;
+        }
+        .btn-primary:hover {
+          background-color: #357ABD;
+        }
+    </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-        <a class="navbar-brand" href="http://localhost:8080/admin">관리자 페이지</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        </div>
+        <a class="navbar-brand" href="/admin/dashboard">관리자 페이지</a>
     </div>
 </nav>
 
+<!-- Main Content -->
+<div class="container">
+    <h1 class="text-center mb-4">학생 등록</h1>
+
+    <div class="d-flex justify-content-end mb-3">
+        <a href="/admin/dashboard" class="btn btn-outline-danger">← 관리자 페이지 돌아가기</a>
+    </div>
+
+    <div class="form-container">
+        <form onsubmit="event.preventDefault(); registerStudent();">
+            <div class="mb-3">
+                <label for="student_id" class="form-label">학번</label>
+                <input type="text" class="form-control" id="student_id" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="account" class="form-label">계정</label>
+                <input type="text" class="form-control" id="account">
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">비밀번호</label>
+                <input type="password" class="form-control" id="password" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="major" class="form-label">전공</label>
+                <input type="text" class="form-control" id="major">
+            </div>
+
+            <div class="mb-3">
+                <label for="grade" class="form-label">학년</label>
+                <select id="grade" class="form-select">
+                    <option value="">선택</option>
+                    <option value="1">1학년</option>
+                    <option value="2">2학년</option>
+                    <option value="3">3학년</option>
+                    <option value="4">4학년</option>
+                    <option value="석사">석사</option>
+                    <option value="박사">박사</option>
+                </select>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary px-5">등록하기</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-
-<h1>학생 등록</h1>
-
-<div class="d-flex justify-content-end mb-3">
-    <a href="/admin" class="btn btn-danger">관리자 페이지 돌아가기</a>
-</div>
-
-<div class="form-group">
-    <label for="title">학번</label>
-    <input type="text" class="form-control" id="student_id">
-</div>
-
-<div class="form-group">
-    <label for="title">계정</label>
-    <input type="text" class="form-control" id="account">
-</div>
-
-<div class="form-group">
-    <label for="title">비밀번호</label>
-    <input type="text" class="form-control" id="password">
-</div>
-
-<div class="form-group">
-    <label for="title">전공</label>
-    <input type="text" class="form-control" id="major">
-</div>
-
-<div class="form-group">
-    <label for="title">학년</label>
-    <input type="text" class="form-control" id="grade">
-</div>
-
-<a href="#" class="btn btn-primary mt-4" onclick="registerStudent()">등록하기</a>
 
 <script>
     async function registerStudent() {
@@ -65,7 +110,6 @@
       const major = document.getElementById('major').value;
       const grade = document.getElementById('grade').value;
 
-      // 간단 유효성 검사
       if (!student_id || !password) {
         alert('학번과 비밀번호는 필수입니다.');
         return;
@@ -74,11 +118,10 @@
       try {
         const response = await fetch('/student/register', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             studentId: student_id,
+            email: account,
             password: password,
             major: major,
             grade: grade
@@ -89,7 +132,8 @@
           alert('학생이 등록되었습니다.');
           location.reload();
         } else {
-          alert('학생 등록 실패');
+          const data = await response.json();
+          alert('등록 실패: ' + (data.message || '서버 오류'));
         }
       } catch (e) {
         alert('서버와 통신 중 오류가 발생했습니다.');
@@ -98,3 +142,5 @@
 </script>
 
 {{> layouts/footer}}
+</body>
+</html>

@@ -17,9 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -46,35 +45,52 @@ public class DashboardController {
 
 
     @GetMapping("/student/dashboard")
-    public String studentDashboard(Model model, Authentication authentication) {
+    public String studentDashboard(
+            @RequestParam(required = false) String courseType,
+            @RequestParam(required = false) String department,
+            @RequestParam(required = false) String grade,
+            Model model,
+            Authentication authentication) {
+
         StudentDetails studentDetails = (StudentDetails) authentication.getPrincipal();
         Student sessionStudent = studentDetails.getStudent();
 
-        // 세션 말고 DB에서 다시 조회 (LazyInitializationException 방지)
+        // LazyInitializationException 방지용 DB 재조회
         Student student = studentRepository.findByStudentNumberWithSubjects(sessionStudent.getStudentNumber())
                 .orElseThrow(() -> new RuntimeException("학생을 찾을 수 없습니다."));
 
+        // 모든 과목 가져오기
         List<Subject> allSubjects = subjectRepository.findAll();
 
+        // 조건에 따라 필터링
+        List<Subject> filteredSubjects = allSubjects.stream()
+                .filter(subject -> courseType == null || courseType.isEmpty() || subject.getCourseType().equals(courseType))
+                .filter(subject -> department == null || department.isEmpty() || subject.getDepartment().equals(department))
+                .filter(subject -> grade == null || grade.isEmpty() || subject.getGrade().equals(grade))
+                .collect(Collectors.toList());
+
+        // 수강 신청한 과목 코드들
         Set<String> enrolledSubjectCodes = student.getSubjects().stream()
                 .map(Subject::getSubjectCode)
                 .collect(Collectors.toSet());
 
-        List<SubjectViewDto> subjectDtos = allSubjects.stream()
+        // DTO 변환
+        List<SubjectViewDto> subjectDtos = filteredSubjects.stream()
                 .map(subject -> {
                     SubjectViewDto dto = new SubjectViewDto();
                     dto.setSubject(subject);
                     dto.setEnrolled(enrolledSubjectCodes.contains(subject.getSubjectCode()));
-
-                    int count = subjectRepository.countStudentsBySubject(subject);
-                    dto.setEnrolledCount(count);
-
+                    dto.setEnrolledCount(subjectRepository.countStudentsBySubject(subject));
                     return dto;
                 })
                 .collect(Collectors.toList());
 
+        // 모델에 값 전달
         model.addAttribute("subjectViews", subjectDtos);
         model.addAttribute("student", student);
+        model.addAttribute("selectedCourseType", courseType);
+        model.addAttribute("selectedDepartment", department);
+        model.addAttribute("selectedGrade", grade);
 
         return "student_dashboard";
     }
@@ -191,5 +207,6 @@ public class DashboardController {
         studentRepository.deleteById(id);
         return "redirect:/admin/student_index";
     }
+
 
 }

@@ -5,6 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <title>mini_project</title>
+    <style>
+        table {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        thead tr {
+            background-color: #4a90e2;
+            color: white;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tbody tr:hover {
+            background-color: #d0e4ff;
+        }
+        th, td {
+            border: 1px solid #dee2e6;
+        }
+        h2 {
+            color: #4a90e2;
+            font-weight: bold;
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -30,44 +56,51 @@
 </nav>
 
 <div class="container mt-3">
-    <h2 class="text-center mb-4" style="color: #4a90e2; font-weight: bold;">수강신청</h2>
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <select class="form-select">
-                <option value="" disabled selected hidden>이수구분 선택</option>
-                <option value="전공(필수)">전공(필수)</option>
-                <option value="전공(선택)">전공(선택)</option>
-                <option value="교양(필수)">교양(필수)</option>
-                <option value="교양(선택)">교양(선택)</option>
-            </select>
-        </div>
-        <div class="col-md-3">
-            <select class="form-select">
-                <option value="" disabled selected hidden>학과 선택</option>
-                <option value="영어영문학과">영어영문학과</option>
-                <option value="컴퓨터공학과">컴퓨터공학과</option>
-                <option value="디자인학과">디자인학과</option>
-                <option value="교양학부">교양학부</option>
-            </select>
-        </div>
-        <div class="col-md-3">
-            <select class="form-select" required>
-                <option value="" disabled selected hidden>학년 선택</option>
-                <option value="1">1학년</option>
-                <option value="2">2학년</option>
-                <option value="3">3학년</option>
-                <option value="4">4학년</option>
-                <option value="M">석사과정</option>
-                <option value="D">박사과정</option>
-            </select>
-        </div>
-        <div class="col-md-3">
-            <button class="btn btn-primary w-100">검색</button>
-        </div>
-    </div>
+    <h2 class="text-center mb-4">수강신청</h2>
 
+    <!-- 필터 -->
+    <form method="get" action="/student/dashboard">
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <select class="form-select" name="courseType">
+                    <option value="" disabled selected hidden>이수구분 선택</option>
+                    <option value="전공(필수)">전공(필수)</option>
+                    <option value="전공(선택)">전공(선택)</option>
+                    <option value="교양(필수)">교양(필수)</option>
+                    <option value="교양(선택)">교양(선택)</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" name="department">
+                    <option value="" disabled selected hidden>학과 선택</option>
+                    <option value="영어영문학과">영어영문학과</option>
+                    <option value="컴퓨터공학과">컴퓨터공학과</option>
+                    <option value="디자인학과">디자인학과</option>
+                    <option value="교양학부">교양학부</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" name="grade">
+                    <option value="" disabled selected hidden>학년 선택</option>
+                    <option value="1">1학년</option>
+                    <option value="2">2학년</option>
+                    <option value="3">3학년</option>
+                    <option value="4">4학년</option>
+                    <option value="석사">석사과정</option>
+                    <option value="박사">박사과정</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary w-100" type="submit">
+                    <i class="bi bi-search"></i> 검색
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <!-- 강의 목록 -->
     <table class="table table-hover text-center align-middle">
-        <thead class="table-light">
+        <thead>
         <tr>
             <th>이수구분</th>
             <th>개설학과</th>
@@ -127,11 +160,13 @@
                         </form>
                     {{/enrolled}}
                 </td>
+            </tr>
         {{/subjectViews}}
         </tbody>
     </table>
 </div>
 
+<!-- 모달 -->
 <div class="modal fade" id="lectureModal" tabindex="-1" aria-labelledby="lectureModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -140,7 +175,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
             </div>
             <div class="modal-body" id="modalContent">
-                <!-- 강의 개요 내용 동적으로 삽입 -->
+                <!-- 강의 개요 내용 삽입 -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
@@ -149,18 +184,13 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    const grade = "{{student.grade}}";
-    const gradeText = /^[1-4]$/.test(grade) ? grade + "학년" : grade;
-    document.getElementById("grade").innerText = " " + gradeText;
-
     document.getElementById('lectureModal').addEventListener('show.bs.modal', function (event) {
-    const button = event.relatedTarget;
-    const content = button.getAttribute('data-bs-content');
-    document.getElementById('modalContent').textContent = content;
+        const button = event.relatedTarget;
+        const content = button.getAttribute('data-bs-content');
+        document.getElementById('modalContent').textContent = content;
     });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-{{> layouts/footer}}
